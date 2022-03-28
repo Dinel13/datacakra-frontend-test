@@ -48,7 +48,7 @@ function App() : JSX.Element {
   return (
     <>
       <Navbar />
-      <main style={{ minHeight: "90vh" }}>
+      <main style={{ minHeight: "85vh" }}>
         <Suspense fallback={<Loading />}>{routes}</Suspense>
       </main>
       <Footer />
