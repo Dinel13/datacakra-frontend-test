@@ -7,6 +7,11 @@ export interface authState {
   name: string;
 }
 
+export interface actionAuth {
+  payload: authState;
+  type: string;
+}
+
 const initialState: authState = {
   id: 0,
   token: "",
@@ -17,7 +22,7 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    login: (state, action) => {
+    login: (state, action: actionAuth) => {
       const {id, token, name } = action.payload;
       state.id = id;
       state.token = token;

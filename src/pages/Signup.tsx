@@ -28,7 +28,7 @@ const Signup: FC = () => {
     });
   };
 
-  const loginHandler = async (
+  const signupHandler = async (
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     e.preventDefault();
@@ -54,8 +54,8 @@ const Signup: FC = () => {
         throw new Error(result.message || "Tidak bisa daftar");
       }
       if (result.code === 1) {
+        navigate(from, { replace: true });
         dispatch(login(result.user));
-        navigate(from);
       } else {
         throw new Error(result.message || "Tidak bisa daftar");
       }
@@ -87,7 +87,7 @@ const Signup: FC = () => {
   return (
     <div className="bg-gray-100 w-full max-w-sm py-6 px-8 my-8 mx-auto rounded-2xl shadow-2xl">
       <h1 className="text-3xl font-semibold text-center">Daftar</h1>
-      <form className="mt-4" onSubmit={loginHandler}>
+      <form className="mt-4" onSubmit={signupHandler}>
         <div>
           <label htmlFor="Name">Nama</label>
           <input
@@ -166,7 +166,7 @@ const Signup: FC = () => {
       <p className="text-sm font-light text-center">
         Sudah Punya Akun?{" "}
         <button
-          onClick={() => navigate("/masuk", { state: { from } })}
+          onClick={() => navigate("/login", { state: { from } })}
           className="font-medium text-indigo-600 dark:text-gray-200 hover:underline"
         >
           MASUK

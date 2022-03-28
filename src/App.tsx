@@ -24,8 +24,8 @@ function App(): JSX.Element {
     routes = (
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Navigate to="/" />} />
-        <Route path="/signup" element={<Navigate to="/" />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/my-account" element={<MyAccount />} />
         <Route path="/turis" element={<Turis />} />
         <Route path="*" element={<NotFound />} />
