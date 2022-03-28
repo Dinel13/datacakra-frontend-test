@@ -1,25 +1,58 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { lazy, ReactElement, Suspense } from "react";
 
-function App() {
+import { useSelector } from "react-redux";
+import { Navigate, Route, Routes } from "react-router";
+
+import Footer from "./layouts/Footer";
+import Loading from "./layouts/Loading";
+import Navbar from "./layouts/Navbar";
+import { selectToken } from "./store/authSlice";
+
+const Home  = lazy(() => import("./pages/Home"));
+const Login = lazy(() => import("./pages/Login"));
+const Signup = lazy(() => import("./pages/Signup"));
+const MyAccount = lazy(() => import("./pages/MyAccount"));
+const Turis = lazy(() =>  import("./pages/Turis"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+
+
+function App() : JSX.Element {
+  const token : string  = useSelector(selectToken);
+  
+  let routes : ReactElement
+
+  if (token) {
+    routes = (
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Navigate to="/" />} />
+        <Route path="/signup" element={<Navigate to="/" />} />
+        <Route path="/my-account" element={<MyAccount />} />
+        <Route path="/turis" element={<Turis />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    );
+  } else {
+    routes = (
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/turis" element={<Navigate to="/Login" />} />
+        <Route path="/my-account" element={<Navigate to="/Login" />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    );
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar />
+      <main style={{ minHeight: "90vh" }}>
+        <Suspense fallback={<Loading />}>{routes}</Suspense>
+      </main>
+      <Footer />
+    </>
   );
 }
 
