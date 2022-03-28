@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Loading from "../layouts/Loading";
 import { showAlert } from "../store/alertSlice";
-import { selectId, selectToken } from "../store/authSlice";
+import { logout, selectId, selectToken } from "../store/authSlice";
 
 interface User {
   id: number;
@@ -38,8 +38,6 @@ const MyAccount: FC = () => {
         if (!response.ok) {
           throw new Error(data.message || "Tidak bisa daftar");
         }
-        console.log(data);
-
         setUser(data);
       } catch (error: any) {
         console.log(error);
@@ -65,11 +63,10 @@ const MyAccount: FC = () => {
         <img
           alt="test"
           className="bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
-          style={{ height: "120px", width: "120px" }}
+          style={{ height: "110px", width: "110px" }}
           src={user.profilepicture}
         />
       </div>
-
       <div className="mt-2">
         <h3 className="text-xl leading-none font-semibold tracking-wide">
           {user.name}
@@ -110,6 +107,7 @@ const MyAccount: FC = () => {
           </svg>
           {user.location}
         </p>
+        <button onClick={() => dispatch(logout())} className="btn-sec mt-3 px-2">Logout</button>
       </div>
     </div>
   ) : (

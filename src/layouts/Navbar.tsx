@@ -13,7 +13,11 @@ function Navbar(): JSX.Element {
         </Link>
         <div className="flex grow items-center justify-end text-lg">
           {user ? (
-            <Link to="/my-account" className="mr-1.5 p-1 link-scale">
+            <div className="flex items-center mr-1.5 gap-x-4">
+              <Link to="/turis" className="p-1 link-scale hover:text-gray-200">
+                Turis
+              </Link>
+            <Link to="/my-account" className="p-1 link-scale">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 mr-1 mb-0.5 inline"
@@ -28,6 +32,7 @@ function Navbar(): JSX.Element {
               </svg>
               {user}
             </Link>
+            </div>
           ) : (
             <div className="flex items-center mr-1.5 gap-x-2">
               <Link to="/login" className="p-1 link-scale hover:text-gray-200">
