@@ -11,7 +11,7 @@ interface User {
   email: string;
   profilepicture: string;
   location: string;
-  cretedat: string;
+  createdat: string;
 }
 
 const MyAccount: FC = () => {
@@ -65,15 +65,18 @@ const MyAccount: FC = () => {
         <img
           alt="test"
           className="bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
-          style={{ height: "100px", width: "100px" }}
+          style={{ height: "120px", width: "120px" }}
           src={user.profilepicture}
         />
       </div>
 
       <div className="mt-2">
-        <h3 className="text-xl leading-none mb-1.5 mt-1 font-semibold tracking-wide">
+        <h3 className="text-xl leading-none font-semibold tracking-wide">
           {user.name}
         </h3>
+        <p className="mb-2 text-gray-500 text-sm">
+          {user.createdat.slice(0, 10)}
+        </p>
         <p>
           <svg
             xmlns="http://www.w3.org/2000/svg"
