@@ -3,7 +3,19 @@
 @tailwind utilities;
 
 @layer base {
-   .link-scale {
-     @apply transform-gpu transition hover:scale-105 duration-150 ease-in-out;
-   }
+  .link-scale {
+    @apply transform-gpu transition hover:scale-105 duration-150 ease-in-out;
+  }
+
+  .btn-pri {
+    @apply text-white bg-blue-500 leading-relaxed focus:outline-none hover:bg-blue-400 rounded-full transition-colors duration-150;
+  }
+
+  .btn-sec {
+    @apply text-blue-500 bg-transparent border border-blue-500 focus:outline-none hover:bg-blue-200 rounded-full transition-colors duration-150;
+  }
+
+  .input-field {
+    @apply w-full text-sm px-4 py-2.5 text-gray-700 border border-gray-400 rounded-full focus:bg-blue-200 active:bg-blue-200 focus:border-blue-500 focus:outline-none focus:ring;
+  }
 }
