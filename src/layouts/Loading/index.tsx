@@ -1,17 +1,14 @@
 import style from "./loading.module.css";
 
-function Loading() : JSX.Element {
+function Loading(): JSX.Element {
   return (
-    <div className="fixed inset-0 z-50 bg-gray-700 opacity-50 flex flex-col items-center justify-center">
+    <div className="w-full z-50 flex flex-col items-center justify-center my-6">
       <div
-        className={`${style.loader} ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4`}
+        className={`${style.loader} ease-linear rounded-full border-8 border-t-8 border-gray-400 h-12 w-12 mb-4`}
       ></div>
-      <h2 className="text-center text-white text-2xl">
-        Loading...
-      </h2>
+      <h2 className="text-center text-gray-700 text-lg">Loading ...</h2>
     </div>
-  )
+  );
 }
-
 
 export default Loading;

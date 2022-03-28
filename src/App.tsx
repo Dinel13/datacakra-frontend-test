@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import Footer from "./layouts/Footer";
-import Loading from "./layouts/Loading";
+import Loading from "./layouts/Loading/LoadingFull";
 import Navbar from "./layouts/Navbar";
 import Alert from "./layouts/Alert";
 import { selectToken } from "./store/authSlice";
