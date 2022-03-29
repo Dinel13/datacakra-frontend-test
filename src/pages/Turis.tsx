@@ -2,6 +2,7 @@ import { FC, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Pagination from "../components/common/Pagination";
 import TurisCard from "../components/TurisCard";
+import UpdateTuris from "../components/UpdateTuris";
 
 import Loading from "../layouts/Loading";
 import { showAlert } from "../store/alertSlice";
@@ -20,6 +21,7 @@ const Turis: FC = () => {
   const [page, setPage] = useState(1);
   const [tPage, setTPage] = useState(0);
   const [turises, setTurises] = useState<Turis[] | []>([]);
+  const [needUpdate, setNeedUpdate] = useState<Turis | null>(null);
   const dispatch = useDispatch();
 
   const getData = useCallback(
@@ -95,13 +97,51 @@ const Turis: FC = () => {
     }, [dispatch]
   );
 
+  const editHandler = useCallback(
+    async (id: number, setPdButton :React.Dispatch<React.SetStateAction<boolean>>) => {
+      try {
+        setPdButton(true)
+        const response = await fetch(
+          `${process.env.REACT_APP_SERVER_URL}/Tourist/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || "Tidak bisa hapus");
+        }
+        dispatch(
+          showAlert({
+            status: "Success",
+            message: "Data berhasil dihapus",
+            action: null,
+          })
+        );
+        setTurises(prev => prev.filter(t => t.id !== id));
+      } catch (error: any) {
+        console.log(error);
+        dispatch(
+          showAlert({
+            status: "Error",
+            message: error.message,
+            action: null,
+          })
+        );
+      } finally {
+        setPdButton(false)
+      }
+    }, [dispatch]
+  );
+
   return pending ? (
     <Loading />
   ) : turises ? (
     <div className="wrapper">
+      {needUpdate && <UpdateTuris turis={needUpdate} cancel={()=>setNeedUpdate(null)} setTurises={setTurises}/>}
       <div className="flex flex-wrap items-start">
         {turises.map((turis: Turis) => (
-          <TurisCard key={turis.id} turis={turis} remove={removeHandler} />
+          <TurisCard key={turis.id} turis={turis} remove={removeHandler} update={setNeedUpdate} />
         ))}
       </div>
       <Pagination

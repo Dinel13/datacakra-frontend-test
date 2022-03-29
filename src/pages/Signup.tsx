@@ -41,11 +41,7 @@ const Signup: FC = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            name: input.name,
-            email: input.email,
-            password: input.password,
-          }),
+          body: JSON.stringify(input),
         }
       );
 

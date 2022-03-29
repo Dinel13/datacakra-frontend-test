@@ -1,18 +1,23 @@
 import React, { FC, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import LoadingButton from "./common/LoadingButton";
 import { Turis } from "../pages/Turis";
 
 interface IProps {
   turis: Turis;
-  remove : (id: number, setPdButton: React.Dispatch<React.SetStateAction<boolean>>) => Promise<void>
+  remove: (
+    id: number,
+    setPdButton: React.Dispatch<React.SetStateAction<boolean>>
+  ) => Promise<void>;
+  update: React.Dispatch<React.SetStateAction<Turis | null>>;
 }
 
-const TurisCard: React.FC<IProps> = ({ turis, remove }) => {
+const TurisCard: React.FC<IProps> = ({ turis, remove, update }) => {
   const [pending, setPending] = useState(false);
-   return (
+  const navigate = useNavigate();
+  return (
     <div className="w-full sm:w-1/2 lg:w-1/3 2xl:w-3/12">
       <div className="flex gap-3 m-2.5 rounded-lg bg-blue-50 overflow-hidden shadow-blue-400 relative hover:bg-white cursor-pointer hover:shadow-xl">
         <div className="relative w-20 rounded-l-lg">
@@ -61,21 +66,24 @@ const TurisCard: React.FC<IProps> = ({ turis, remove }) => {
               <LoadingButton />
             ) : (
               <>
-                <button onClick={()=>remove(turis.id, setPending)} className="bg-red-400 w-12 py-0.5 border border-gray-400 rounded-l">
+                <button
+                  onClick={() => remove(turis.id, setPending)}
+                  className="bg-red-400 w-14 py-0.5 border border-gray-400 rounded-l"
+                >
                   hapus
                 </button>
                 <button
-                  
-                  className="w-12 py-0.5 border-y border-gray-400"
+                  onClick={() => update(turis)}
+                  className="w-14 py-0.5 border-y border-gray-400"
                 >
-                  edit
+                  update
                 </button>
-                <Link
-                  to={"/turis/" + turis.id}
-                  className="bg-blue-400 w-12 py-0.5 border border-gray-400 rounded-r"
+                <button
+                  onClick={() => navigate(`/turis/${turis.id}`)}
+                  className=" bg-blue-400 w-14 py-0.5 border border-gray-400 rounded-r"
                 >
                   detail
-                </Link>
+                </button>
               </>
             )}
           </div>
