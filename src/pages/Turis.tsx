@@ -5,6 +5,7 @@ import Pagination from "../components/common/Pagination";
 import TurisCard from "../components/TurisCard";
 import UpdateTuris from "../components/UpdateTuris";
 import DeleteTuris from "../components/DeleteTuris";
+import AddTuris from "../components/AddTuris";
 
 import Loading from "../layouts/Loading";
 import { showAlert } from "../store/alertSlice";
@@ -25,6 +26,7 @@ const Turiss: FC = () => {
   const [turises, setTurises] = useState<Turis[] | []>([]);
   const [needUpdate, setNeedUpdate] = useState<Turis | null>(null);
   const [needDelete, setNeedDelete] = useState<Turis | null>(null);
+  const [needAdd, setNeedAdd] = useState(false)
   const dispatch = useDispatch();
 
   const getData = useCallback(
@@ -118,7 +120,16 @@ const Turiss: FC = () => {
           setTurises={setTurises}
         />
       )}
-      <div className="flex flex-wrap items-start">
+      {needAdd && (
+        <AddTuris
+          cancel={() => setNeedAdd(false)}
+        />
+      )}
+      <div className="flex flex-wrap justify-between items-center mb-3">
+        <p className="text-3xl font-semibold tracking-wider">Daftar turis</p>
+        <button onClick={()=> setNeedAdd(true)} className="btn-pri py-1 px-3">Tambah Turis</button>
+      </div>
+      <div className="flex flex-wrap items-start -mx-2">
         {turises.map((turis: Turis) => (
           <TurisCard
             key={turis.id}

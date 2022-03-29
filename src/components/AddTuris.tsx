@@ -1,21 +1,23 @@
 import { FC, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-import { Turis } from "../pages/Turis";
 import { showAlert } from "../store/alertSlice";
 import LoadingButton from "./common/LoadingButton";
 
 interface IProps {
-  turis: Turis;
   cancel: () => void;
-  setTurises?: React.Dispatch<React.SetStateAction<[] | Turis[]>>;
-  setTuris?: React.Dispatch<React.SetStateAction<Turis | null>>;
 }
 
-const UpdateTuris: FC<IProps> = ({ turis, cancel, setTurises, setTuris }) => {
-  const [input, setInput] = useState(turis);
+const AddTuris: FC<IProps> = ({ cancel }) => {
+  const [input, setInput] = useState({
+    tourist_name : "",
+    tourist_email : "",
+    tourist_location : "",
+  });
   const [pending, setPending] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -32,9 +34,9 @@ const UpdateTuris: FC<IProps> = ({ turis, cancel, setTurises, setTuris }) => {
     try {
       setPending(true);
       const response = await fetch(
-        `${process.env.REACT_APP_SERVER_URL}/Tourist/${turis.id}`,
+        `${process.env.REACT_APP_SERVER_URL}/Tourist`,
         {
-          method: "PUT",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
@@ -43,22 +45,16 @@ const UpdateTuris: FC<IProps> = ({ turis, cancel, setTurises, setTuris }) => {
       );
       const data = await response.json();
       if (!response.ok) {
-        throw new Error(data.message || "Tidak bisa mengubah");
+        throw new Error(data.Message || "Tidak bisa menambah");
       }
       dispatch(
         showAlert({
           status: "Success",
-          message: "Data berhasil diupdate",
+          message: "Data berhasil ditambah",
           action: null,
         })
       );
-     setTurises && setTurises(prev => prev.map((t) => {
-        if (t.id === turis.id) {
-          return { ...t, ...input };
-        }
-        return t;
-      }));
-      setTuris && setTuris(data);
+      navigate("/turis/"+data.id);
       cancel();
     } catch (error: any) {
       console.log(error);
@@ -83,7 +79,7 @@ const UpdateTuris: FC<IProps> = ({ turis, cancel, setTurises, setTuris }) => {
             <div className="w-full">
               <div className="p-4 bg-gradient-to-r from-blue-500 to-sky-400">
                 <span className="text-white text-xl font-bold ">
-                  Update Turis
+                  Tambah Turis
                 </span>
               </div>
               <form onSubmit={submitHandler} className="p-4 mt-2">
@@ -132,7 +128,7 @@ const UpdateTuris: FC<IProps> = ({ turis, cancel, setTurises, setTuris }) => {
                         className="w-full btn-pri h-10 ml-4"
                         type="submit"
                       >
-                        Update
+                        Tambah
                       </button>
                     </>
                   )}
@@ -146,4 +142,4 @@ const UpdateTuris: FC<IProps> = ({ turis, cancel, setTurises, setTuris }) => {
   );
 };
 
-export default UpdateTuris;
+export default AddTuris;

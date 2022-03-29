@@ -55,8 +55,8 @@ const DeteleTuris: FC<IProps> = ({ turis, cancel, setTurises, back }) => {
 
   return (
     <>
-      <div className="opacity-20 fixed inset-0 z-30 bg-black"></div>
-      <div className="flex justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-0 z-40">
+      <div className="opacity-30 fixed inset-0 z-20 bg-black"></div>
+      <div className="flex justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-0 z-30">
         <div className="w-full max-w-sm mx-auto bg-white rounded-lg overflow-hidden">
           <div className="md:flex">
             <div className="w-full">
