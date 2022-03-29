@@ -19,7 +19,7 @@ const Turis: FC = () => {
   const [pending, setPending] = useState(false);
   const [page, setPage] = useState(1);
   const [tPage, setTPage] = useState(0);
-  const [turises, setTurises] = useState<Turis[] | null>(null);
+  const [turises, setTurises] = useState<Turis[] | []>([]);
   const dispatch = useDispatch();
 
   const getData = useCallback(
@@ -58,13 +58,50 @@ const Turis: FC = () => {
     getData(page);
   }, [getData, page]);
 
+  const removeHandler = useCallback(
+    async (id: number, setPdButton :React.Dispatch<React.SetStateAction<boolean>>) => {
+      try {
+        setPdButton(true)
+        const response = await fetch(
+          `${process.env.REACT_APP_SERVER_URL}/Tourist/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || "Tidak bisa hapus");
+        }
+        dispatch(
+          showAlert({
+            status: "Success",
+            message: "Data berhasil dihapus",
+            action: null,
+          })
+        );
+        setTurises(prev => prev.filter(t => t.id !== id));
+      } catch (error: any) {
+        console.log(error);
+        dispatch(
+          showAlert({
+            status: "Error",
+            message: error.message,
+            action: null,
+          })
+        );
+      } finally {
+        setPdButton(false)
+      }
+    }, [dispatch]
+  );
+
   return pending ? (
     <Loading />
   ) : turises ? (
     <div className="wrapper">
       <div className="flex flex-wrap items-start">
         {turises.map((turis: Turis) => (
-          <TurisCard key={turis.id} turis={turis} />
+          <TurisCard key={turis.id} turis={turis} remove={removeHandler} />
         ))}
       </div>
       <Pagination

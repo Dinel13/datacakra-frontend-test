@@ -14,6 +14,7 @@ const Login = lazy(() => import("./pages/Login"));
 const Signup = lazy(() => import("./pages/Signup"));
 const MyAccount = lazy(() => import("./pages/MyAccount"));
 const Turis = lazy(() => import("./pages/Turis"));
+const TurisDetail = lazy(() => import("./pages/TurisDetail"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 function App(): JSX.Element {
@@ -27,7 +28,10 @@ function App(): JSX.Element {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/my-account" element={<MyAccount />} />
-        <Route path="/turis" element={<Turis />} />
+        <Route path="/turis">
+          <Route index element={<Turis />} />
+          <Route path=":id" element={<TurisDetail />} />
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
     );

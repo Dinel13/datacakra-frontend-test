@@ -1,23 +1,28 @@
-import { FC } from "react";
+import React, { FC, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+
+import LoadingButton from "./common/LoadingButton";
 import { Turis } from "../pages/Turis";
 
 interface IProps {
   turis: Turis;
+  remove : (id: number, setPdButton: React.Dispatch<React.SetStateAction<boolean>>) => Promise<void>
 }
 
-const TurisCard: FC<IProps> = ({ turis }) => {
-  return (
+const TurisCard: React.FC<IProps> = ({ turis, remove }) => {
+  const [pending, setPending] = useState(false);
+   return (
     <div className="w-full sm:w-1/2 lg:w-1/3 2xl:w-3/12">
-      <div className="flex gap-3 m-2.5 rounded-xl bg-blue-50 overflow-hidden shadow-blue-400 relative hover:bg-white cursor-pointer hover:shadow-xl">
-        <div className="relative w-20 rounded-l-xl">
+      <div className="flex gap-3 m-2.5 rounded-lg bg-blue-50 overflow-hidden shadow-blue-400 relative hover:bg-white cursor-pointer hover:shadow-xl">
+        <div className="relative w-20 rounded-l-lg">
           <img
             src={turis.tourist_profilepicture}
             alt="blog"
-            className="rounded-l-xl object-cover h-full w-full"
+            className="rounded-l-lg object-cover h-full w-full"
           />
         </div>
-        <div className="py-2 pr-1 text-sm text-gray-700 overflow-hidden">
+        <div className="grow py-2 pr-1 text-sm text-gray-700 overflow-hidden">
           <h5 className="font-semibold text-lg leading-6 truncate text-gray-800">
             {turis.tourist_name}
           </h5>
@@ -36,7 +41,7 @@ const TurisCard: FC<IProps> = ({ turis }) => {
             </svg>
             {turis.tourist_location}
           </p>
-          <p className="mt-2 truncate">
+          <p className="truncate">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5 inline -mr-1 mt-1"
@@ -51,8 +56,30 @@ const TurisCard: FC<IProps> = ({ turis }) => {
             </svg>
             {turis.tourist_email}
           </p>
+          <div className="text-right mt-2 z-10">
+            {pending ? (
+              <LoadingButton />
+            ) : (
+              <>
+                <button onClick={()=>remove(turis.id, setPending)} className="bg-red-400 w-12 py-0.5 border border-gray-400 rounded-l">
+                  hapus
+                </button>
+                <button
+                  
+                  className="w-12 py-0.5 border-y border-gray-400"
+                >
+                  edit
+                </button>
+                <Link
+                  to={"/turis/" + turis.id}
+                  className="bg-blue-400 w-12 py-0.5 border border-gray-400 rounded-r"
+                >
+                  detail
+                </Link>
+              </>
+            )}
+          </div>
         </div>
-        <Link to={"/turis/" + turis.id} className="absolute inset-0"></Link>
       </div>
     </div>
   );
