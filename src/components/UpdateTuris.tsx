@@ -61,7 +61,6 @@ const UpdateTuris: FC<IProps> = ({ turis, cancel, setTurises, setTuris }) => {
       setTuris && setTuris(data);
       cancel();
     } catch (error: any) {
-      console.log(error);
       dispatch(
         showAlert({
           status: "Error",

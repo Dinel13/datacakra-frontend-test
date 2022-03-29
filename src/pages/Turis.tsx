@@ -46,7 +46,6 @@ const Turiss: FC = () => {
         setTurises(data.data);
         setTPage(data.total_pages);
       } catch (error: any) {
-        console.log(error);
         dispatch(
           showAlert({
             status: "Error",
@@ -88,7 +87,6 @@ const Turiss: FC = () => {
   //       );
   //       setTurises(prev => prev.filter(t => t.id !== id));
   //     } catch (error: any) {
-  //       console.log(error);
   //       dispatch(
   //         showAlert({
   //           status: "Error",

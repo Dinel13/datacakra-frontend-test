@@ -57,7 +57,6 @@ const AddTuris: FC<IProps> = ({ cancel }) => {
       navigate("/turis/"+data.id);
       cancel();
     } catch (error: any) {
-      console.log(error);
       dispatch(
         showAlert({
           status: "Error",

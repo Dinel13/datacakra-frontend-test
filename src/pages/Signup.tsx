@@ -56,7 +56,6 @@ const Signup: FC = () => {
         throw new Error(result.message || "Tidak bisa daftar");
       }
     } catch (error: any) {
-      console.log(error);
       dispatch(
         showAlert({
           status: "Error",

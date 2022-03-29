@@ -16,7 +16,6 @@ const TurisDetail: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
-  console.log(id);
 
   useEffect(() => {
     const getData = async (idTuris: string) => {
@@ -34,7 +33,6 @@ const TurisDetail: FC = () => {
         }
         setTuris(data);
       } catch (error: any) {
-        console.log(error);
         dispatch(
           showAlert({
             status: "Error",

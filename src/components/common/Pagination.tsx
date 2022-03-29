@@ -7,7 +7,6 @@ interface IProps {
 }
 
 const Pagination: React.FC<IProps> = ({ setPage, cPage, tPages }) => {
-  console.log(cPage);
   return (
     <div className="flex item-center justify-center my-12">
       <button

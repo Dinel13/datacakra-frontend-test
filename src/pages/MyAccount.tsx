@@ -40,7 +40,6 @@ const MyAccount: FC = () => {
         }
         setUser(data);
       } catch (error: any) {
-        console.log(error);
         dispatch(
           showAlert({
             status: "Error",

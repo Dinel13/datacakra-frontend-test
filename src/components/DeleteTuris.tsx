@@ -40,7 +40,6 @@ const DeteleTuris: FC<IProps> = ({ turis, cancel, setTurises, back }) => {
       cancel()
       back && back();
     } catch (error: any) {
-      console.log(error);
       dispatch(
         showAlert({
           status: "Error",
