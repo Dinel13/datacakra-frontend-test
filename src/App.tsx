@@ -1,7 +1,7 @@
 import { lazy, ReactElement, Suspense } from "react";
 
 import { useSelector } from "react-redux";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import Footer from "./layouts/Footer";
 import Loading from "./layouts/Loading/LoadingFull";
@@ -19,6 +19,7 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 
 function App(): JSX.Element {
   const token: string = useSelector(selectToken);
+  const location = useLocation();
 
   let routes: ReactElement;
   if (token) {
@@ -41,10 +42,10 @@ function App(): JSX.Element {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route
-          path="/turis"
-          element={<Navigate to="/signup" state={{ from: "/turis" }} replace />}
-        />
+        <Route path="/turis">
+          <Route index element={<Navigate to="/signup" state={{ from: "/turis" }} replace />} />
+          <Route path=":id" element={<Navigate to="/signup" state={{ from: location.pathname }} replace />} />
+        </Route>
         <Route
           path="/my-account"
           element={
