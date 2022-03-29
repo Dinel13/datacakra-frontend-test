@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from "react";
+import { FC, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { Turis } from "../pages/Turis";
@@ -8,10 +8,11 @@ import LoadingButton from "./common/LoadingButton";
 interface IProps {
   turis: Turis;
   cancel: () => void;
-  setTurises: React.Dispatch<React.SetStateAction<[] | Turis[]>>;
+  setTurises?: React.Dispatch<React.SetStateAction<[] | Turis[]>>;
+  setTuris?: React.Dispatch<React.SetStateAction<Turis | null>>;
 }
 
-const UpdateTuris: FC<IProps> = ({ turis, cancel, setTurises }) => {
+const UpdateTuris: FC<IProps> = ({ turis, cancel, setTurises, setTuris }) => {
   const [input, setInput] = useState(turis);
   const [pending, setPending] = useState(false);
   const dispatch = useDispatch();
@@ -42,16 +43,22 @@ const UpdateTuris: FC<IProps> = ({ turis, cancel, setTurises }) => {
       );
       const data = await response.json();
       if (!response.ok) {
-        throw new Error(data.message || "Tidak bisa hapus");
+        throw new Error(data.message || "Tidak bisa mengubah");
       }
       dispatch(
         showAlert({
           status: "Success",
-          message: "Data berhasil dihapus",
+          message: "Data berhasil diupdate",
           action: null,
         })
       );
-      setTurises(prev => [ ...prev.filter(t => t.id !== turis.id), data ]);
+     setTurises && setTurises(prev => prev.map((t) => {
+        if (t.id === turis.id) {
+          return { ...t, ...input };
+        }
+        return t;
+      }));
+      setTuris && setTuris(data);
       cancel();
     } catch (error: any) {
       console.log(error);

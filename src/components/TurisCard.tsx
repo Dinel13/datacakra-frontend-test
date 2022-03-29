@@ -1,21 +1,15 @@
-import React, { FC, useState } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import LoadingButton from "./common/LoadingButton";
 import { Turis } from "../pages/Turis";
 
 interface IProps {
   turis: Turis;
-  remove: (
-    id: number,
-    setPdButton: React.Dispatch<React.SetStateAction<boolean>>
-  ) => Promise<void>;
   update: React.Dispatch<React.SetStateAction<Turis | null>>;
+  delete: React.Dispatch<React.SetStateAction<Turis | null>>;
 }
 
-const TurisCard: React.FC<IProps> = ({ turis, remove, update }) => {
-  const [pending, setPending] = useState(false);
+const TurisCard: React.FC<IProps> = ({ turis, update, delete: del }) => {
   const navigate = useNavigate();
   return (
     <div className="w-full sm:w-1/2 lg:w-1/3 2xl:w-3/12">
@@ -62,30 +56,24 @@ const TurisCard: React.FC<IProps> = ({ turis, remove, update }) => {
             {turis.tourist_email}
           </p>
           <div className="text-right mt-2 z-10">
-            {pending ? (
-              <LoadingButton />
-            ) : (
-              <>
-                <button
-                  onClick={() => remove(turis.id, setPending)}
-                  className="bg-red-400 w-14 py-0.5 border border-gray-400 rounded-l"
-                >
-                  hapus
-                </button>
-                <button
-                  onClick={() => update(turis)}
-                  className="w-14 py-0.5 border-y border-gray-400"
-                >
-                  update
-                </button>
-                <button
-                  onClick={() => navigate(`/turis/${turis.id}`)}
-                  className=" bg-blue-400 w-14 py-0.5 border border-gray-400 rounded-r"
-                >
-                  detail
-                </button>
-              </>
-            )}
+            <button
+              onClick={() => del(turis)}
+              className="bg-red-400 w-14 py-0.5 border border-gray-400 rounded-l"
+            >
+              hapus
+            </button>
+            <button
+              onClick={() => update(turis)}
+              className="w-14 py-0.5 border-y border-gray-400"
+            >
+              update
+            </button>
+            <button
+              onClick={() => navigate(`/turis/${turis.id}`)}
+              className=" bg-blue-400 w-14 py-0.5 border border-gray-400 rounded-r"
+            >
+              detail
+            </button>
           </div>
         </div>
       </div>
