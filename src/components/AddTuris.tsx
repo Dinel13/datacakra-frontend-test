@@ -48,7 +48,7 @@ const AddTuris: FC<IProps> = ({ cancel }) => {
       );
       const data = await response.json();
       if (!response.ok) {
-        throw new Error(data.Message || "Tidak bisa menambah");
+        throw new Error(data.message[0] || "Tidak bisa menambah");
       }
       dispatch(
         showAlert({
