@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 
 import UpdateTuris from "../components/UpdateTuris";
@@ -7,12 +7,14 @@ import DeleteTuris from "../components/DeleteTuris";
 import Loading from "../layouts/Loading";
 import { showAlert } from "../store/alertSlice";
 import { Turis } from "./Turis";
+import { selectToken } from "../store/authSlice";
 
 const TurisDetail: FC = () => {
   const [pending, setPending] = useState(false);
   const [needUpdate, setNeedUpdate] = useState<Turis | null>(null);
   const [needDelete, setNeedDelete] = useState<Turis | null>(null);
   const [turis, setTuris] = useState<Turis | null>(null);
+  const token = useSelector(selectToken)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -25,6 +27,9 @@ const TurisDetail: FC = () => {
           `${process.env.REACT_APP_SERVER_URL}/Tourist/${idTuris}`,
           {
             method: "GET",
+            headers: {
+              Authorization: "Bearer " + token,
+            },
           }
         );
         const data = await response.json();

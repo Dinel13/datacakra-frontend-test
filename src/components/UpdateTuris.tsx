@@ -1,8 +1,9 @@
 import { FC, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Turis } from "../pages/Turis";
 import { showAlert } from "../store/alertSlice";
+import { selectToken } from "../store/authSlice";
 import LoadingButton from "./common/LoadingButton";
 
 interface IProps {
@@ -15,6 +16,7 @@ interface IProps {
 const UpdateTuris: FC<IProps> = ({ turis, cancel, setTurises, setTuris }) => {
   const [input, setInput] = useState(turis);
   const [pending, setPending] = useState(false);
+  const token = useSelector(selectToken)
   const dispatch = useDispatch();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -36,7 +38,8 @@ const UpdateTuris: FC<IProps> = ({ turis, cancel, setTurises, setTuris }) => {
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+              "Content-Type": "application/json",
           },
           body: JSON.stringify(input),
         }

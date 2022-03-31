@@ -1,8 +1,9 @@
 import { FC, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { showAlert } from "../store/alertSlice";
+import { selectToken } from "../store/authSlice";
 import LoadingButton from "./common/LoadingButton";
 
 interface IProps {
@@ -11,11 +12,12 @@ interface IProps {
 
 const AddTuris: FC<IProps> = ({ cancel }) => {
   const [input, setInput] = useState({
-    tourist_name : "",
-    tourist_email : "",
-    tourist_location : "",
+    tourist_name: "",
+    tourist_email: "",
+    tourist_location: "",
   });
   const [pending, setPending] = useState(false);
+  const token = useSelector(selectToken);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -38,6 +40,7 @@ const AddTuris: FC<IProps> = ({ cancel }) => {
         {
           method: "POST",
           headers: {
+            Authorization: "Bearer " + token,
             "Content-Type": "application/json",
           },
           body: JSON.stringify(input),
@@ -54,7 +57,7 @@ const AddTuris: FC<IProps> = ({ cancel }) => {
           action: null,
         })
       );
-      navigate("/turis/"+data.id);
+      navigate("/turis/" + data.id);
       cancel();
     } catch (error: any) {
       dispatch(

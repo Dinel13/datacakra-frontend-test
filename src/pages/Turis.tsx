@@ -1,5 +1,5 @@
 import { FC, useCallback, useEffect, useState } from "react";
-import { useDispatch} from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 
 import Pagination from "../components/common/Pagination";
 import TurisCard from "../components/TurisCard";
@@ -9,6 +9,7 @@ import AddTuris from "../components/AddTuris";
 
 import Loading from "../layouts/Loading";
 import { showAlert } from "../store/alertSlice";
+import { selectToken } from "../store/authSlice";
 
 export interface Turis {
   id: number;
@@ -27,6 +28,7 @@ const Turiss: FC = () => {
   const [needUpdate, setNeedUpdate] = useState<Turis | null>(null);
   const [needDelete, setNeedDelete] = useState<Turis | null>(null);
   const [needAdd, setNeedAdd] = useState(false)
+  const token = useSelector(selectToken)
   const dispatch = useDispatch();
 
   const getData = useCallback(
@@ -37,6 +39,9 @@ const Turiss: FC = () => {
           `${process.env.REACT_APP_SERVER_URL}/Tourist?page=${p}`,
           {
             method: "GET",
+            headers: {
+              Authorization: "Bearer " + token,
+            },
           }
         );
         const data = await response.json();

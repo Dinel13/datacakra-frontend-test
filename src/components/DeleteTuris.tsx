@@ -1,8 +1,9 @@
 import { FC, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Turis } from "../pages/Turis";
 import { showAlert } from "../store/alertSlice";
+import { selectToken } from "../store/authSlice";
 import LoadingButton from "./common/LoadingButton";
 
 interface IProps {
@@ -14,6 +15,7 @@ interface IProps {
 
 const DeteleTuris: FC<IProps> = ({ turis, cancel, setTurises, back }) => {
   const [pending, setPending] = useState(false);
+  const token = useSelector(selectToken)
   const dispatch = useDispatch();
 
   const deleteHandler = async (id: number) => {
@@ -23,6 +25,9 @@ const DeteleTuris: FC<IProps> = ({ turis, cancel, setTurises, back }) => {
         `${process.env.REACT_APP_SERVER_URL}/Tourist/${id}`,
         {
           method: "DELETE",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
         }
       );
       const data = await response.json();
