@@ -49,9 +49,15 @@ const Signup: FC = () => {
       if (!response.ok) {
         throw new Error(result.message || "Tidak bisa daftar");
       }
-      if (result.code === 1) {
-        navigate(from, { replace: true });
-        dispatch(login(result.user));
+      if (result.code === 0) {
+        dispatch(
+          showAlert({
+            status: "Success",
+            message: "Berhasil membuat akun, silahkan login",
+          })
+        );
+        navigate("/login", { state: { from } })
+        // dispatch(login(result.user));
       } else {
         throw new Error(result.message || "Tidak bisa daftar");
       }
@@ -60,7 +66,6 @@ const Signup: FC = () => {
         showAlert({
           status: "Error",
           message: error.message,
-          action: null,
         })
       );
     } finally {

@@ -8,6 +8,7 @@ import Loading from "./layouts/Loading/LoadingFull";
 import Navbar from "./layouts/Navbar";
 import Alert from "./layouts/Alert";
 import { selectToken } from "./store/authSlice";
+import ErrorBoundary from "./layouts/ErrorBoundaries";
 
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
@@ -43,8 +44,22 @@ function App(): JSX.Element {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/turis">
-          <Route index element={<Navigate to="/signup" state={{ from: "/turis" }} replace />} />
-          <Route path=":id" element={<Navigate to="/signup" state={{ from: location.pathname }} replace />} />
+          <Route
+            index
+            element={
+              <Navigate to="/signup" state={{ from: "/turis" }} replace />
+            }
+          />
+          <Route
+            path=":id"
+            element={
+              <Navigate
+                to="/signup"
+                state={{ from: location.pathname }}
+                replace
+              />
+            }
+          />
         </Route>
         <Route
           path="/my-account"
@@ -58,14 +73,14 @@ function App(): JSX.Element {
   }
 
   return (
-    <>
-      <Navbar />
-      <Alert />
-      <main style={{ minHeight: "85vh" }}>
-        <Suspense fallback={<Loading />}>{routes}</Suspense>
-      </main>
-      <Footer />
-    </>
+      <ErrorBoundary>
+        <Navbar />
+        <Alert />
+        <main style={{ minHeight: "85vh" }}>
+          <Suspense fallback={<Loading />}>{routes}</Suspense>
+        </main>
+        <Footer />
+      </ErrorBoundary>
   );
 }
 

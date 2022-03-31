@@ -65,7 +65,6 @@ const Login: FC = () => {
         showAlert({
           status: "Error",
           message: error.message,
-          action: null,
         })
       );
     } finally {
@@ -86,7 +85,7 @@ const Login: FC = () => {
 
   return (
     <div className="bg-gray-100 w-full max-w-sm py-6 px-8 my-8 mx-auto rounded-2xl shadow-2xl">
-      <h1 className="text-3xl font-semibold text-center">Daftar</h1>
+      <h1 className="text-3xl font-semibold text-center">Masuk</h1>
       <form className="mt-4" onSubmit={loginHandler}>
         <div className="mt-4">
           <label htmlFor="email">Email</label>
