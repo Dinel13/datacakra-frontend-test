@@ -9,9 +9,7 @@ interface User {
   id: number;
   name: string;
   email: string;
-  profilepicture: string;
-  location: string;
-  createdat: string;
+  avatar: string;
 }
 
 const MyAccount: FC = () => {
@@ -63,16 +61,13 @@ const MyAccount: FC = () => {
           alt="test"
           className="bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
           style={{ height: "110px", width: "110px" }}
-          src={user.profilepicture}
+          src={user.avatar}
         />
       </div>
       <div className="mt-2">
         <h3 className="text-xl leading-none font-semibold tracking-wide">
           {user.name}
         </h3>
-        <p className="mb-2 text-gray-500 text-sm">
-          {user.createdat.slice(0, 10)}
-        </p>
         <p>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -89,22 +84,6 @@ const MyAccount: FC = () => {
             />
           </svg>
           {user.email}
-        </p>
-        <p>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 inline mr-1"
-            fill="currentColor"
-            viewBox="0 0 28 28"
-            stroke="none"
-          >
-            <path
-              fillRule="evenodd"
-              d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-              clipRule="evenodd"
-            />
-          </svg>
-          {user.location}
         </p>
         <button onClick={() => dispatch(logout())} className="btn-sec mt-3 px-2">Logout</button>
       </div>
