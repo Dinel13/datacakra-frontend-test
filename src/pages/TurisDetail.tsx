@@ -50,7 +50,7 @@ const TurisDetail: FC = () => {
       }
     };
     id && getData(id);
-  }, [dispatch, id]);
+  }, [dispatch, id, token]);
 
   return pending ? (
     <Loading />

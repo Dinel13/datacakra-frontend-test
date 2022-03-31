@@ -62,7 +62,7 @@ const Turiss: FC = () => {
         setPending(false);
       }
     },
-    [dispatch]
+    [dispatch, token]
   );
 
   useEffect(() => {
